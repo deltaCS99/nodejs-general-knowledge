@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-general-knowledge-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon backend/server.js",
+    "build": "(cd front-end && npm install) && npm install && npm run build --prefix ./front-end",
+    "client": "npm start --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deltaCS99/nodejs-general-knowledge-game"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.1"
+  }
+}
