@@ -7,6 +7,8 @@ import { dirname } from "path"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+import path from "path"
+
 const PORT = process.env.PORT || 8080
 const app = express()
 const server = http.createServer(app)
@@ -31,8 +33,9 @@ const createNewGame = (isAutoJoin) => {
     }
 }
 
+app.use(express.static(path.join(__dirname, "../frontend/dist/frontend")));
 app.get("/", (req, res) => {
-    res.sendFile("../frontend/dist/frontend/index.html")
+    res.sendFile("../frontend/dist/frontend/index.html", {root: __dirname})
 })
 
 io.on("connection", (socket) => {
