@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "server": "nodemon backend/server.js",
-    "build": "(cd front-end && npm install) && npm install && npm run build --prefix ./front-end",
+    "build": "(cd frontend && npm install) && npm run build",
     "client": "npm start --prefix frontend"
   },
   "repository": {
