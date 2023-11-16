@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
+import { io } from 'socket.io-client';
+
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'General Knowledge';
+  socket = io('http://localhost:8080');
 }

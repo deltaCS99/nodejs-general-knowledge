@@ -20,101 +20,38 @@ const io = new Server(server, {
     }
 })
 
-let playersCount = 0
 let gamesInProgress = {}
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+let availableLetters = [...alphabet]
+
 
 const createNewGame = (isAutoJoin) => {
     return {
         id: uuid(),
-        players: {},
-        numPlayers: 0,
-        owner: null,
-        isAutoJoin: isAutoJoin
+        playerOneSocket:null,
+        playerTwoSocket:null,
+        isAutoJoin,
     }
+}
+
+const getRandomLetter = () => {
+    if (availableLetters.length === 0) {
+        console.log("Game Over!")
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableLetters.length)
+    const randomLetter = availableLetters[randomIndex]
+    availableLetters.splice(randomIndex, 1)
+    return randomLetter
 }
 
 app.use(express.static(path.join(__dirname, "../frontend/dist/frontend")));
 app.get("/", (req, res) => {
-    res.sendFile("../frontend/dist/frontend/index.html", {root: __dirname})
+    res.sendFile(new URL('../frontend/dist/frontend/index.html', import.meta.url).pathname)
 })
 
 io.on("connection", (socket) => {
-    console.log("A new player connected!")
-    socket.on("initUser", ({ username }) => {
-
-        if (playersCount === 0) {
-            console.log("NO USER ", playersCount)
-            const newGame = createNewGame(true)
-            gamesInProgress[newGame.id] = newGame
-            newGame.players[socket.id] = { socket, player: {
-                username,
-                score: 0
-            }}
-            newGame.owner = socket
-            
-            newGame.owner.emit("initNumPlayers", newGame.id)
-            playersCount++
-            newGame.owner.emitt("waitingForPlayers", "Waiting for more players to join...")
-        
-        }
-        else {
-            console.log("SOME USER ", playersCount)
-            let existingGame = Object.values(gamesInProgress)
-            .find(game => game.isAutoJoin && game.owner && playersCount < game.numPlayers)
-            
-            if (existingGame) {
-                    existingGame.players[socket.id] = socket
-                    playersCount++
-                    if (playersCount >= existingGame.numPlayers){
-                        existingGame.isAutoJoin = false
-                        numPlayers = 0
-                        playersCount = 0
-
-                        for (const player of existingGame.players){
-                            player.socket.emit("gameStarting", "The game is starting. Please wait...")
-                        }
-                    }
-                    else {
-                        existingGame.players[socket.id].socket.emit("waitingForPlayers", "Waiting for more players to join...")
-                    }
-
-            }
-            else{
-                const newGame = createNewGame(true)
-                gamesInProgress[newGame.id] = newGame
-                newGame.players[socket.id] = { socket, player: {
-                    username,
-                    score: 0
-                }}
-                newGame.owner = socket
-                
-                newGame.owner.emit("initNumPlayers", newGame.id)
-                playersCount++
-                newGame.owner.emitt("waitingForPlayers", "Waiting for more players to join...")
-            }
-
-        }
-
-        console.log(gamesInProgress)
-    })
-
-    socket.on("initNumPlayers", ({ nPlayers, gameId }) => {
-        numPlayers = parseInt(nPlayers)
-        const game = Object.values(gamesInProgress).find(game => game.id === gameId)
-
-        game.numPlayers = nPlayers
-    })
-
-    socket.on("initGame", ({ nPlayers, gameId }) => {
-
-    })
-
-
-    socket.on("disconnect", (reason) => {
-        console.log(reason)
-        delete players[socket.id]
-        io.emit("updatePlayers", players)
-    })
+    console.log("A new player connected!", socket.id)
 })
 
 server.listen(PORT, () => {
