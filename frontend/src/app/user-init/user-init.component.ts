@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserInitService } from '../user-init.service';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-user-init',
@@ -10,10 +10,10 @@ import { UserInitService } from '../user-init.service';
 export class UserInitComponent {
   @Input({ required: true }) username!: string;
 
-  constructor(private router: Router, private userService: UserInitService) {}
+  constructor(private router: Router, private gameService: GameService) {}
 
   submitUsername(): void {
-    this.userService.setUsername(this.username);
+    this.gameService.setUsername(this.username);
     this.router.navigate(['/game']);
   }
 

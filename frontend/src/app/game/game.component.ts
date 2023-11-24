@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserInitService } from '../user-init.service';
+import { GameService } from '../game.service';
 import { Player } from '../player';
 
 @Component({
@@ -10,9 +10,9 @@ import { Player } from '../player';
 export class GameComponent {
   username: string = '';
 
-  constructor(private userService: UserInitService){}
+  constructor(private gameService: GameService){}
 
   ngOnInit(){
-    this.username = this.userService.getUsername();
+    this.username = this.gameService.getUsername();
   }
 }

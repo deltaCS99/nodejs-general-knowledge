@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { UserInitComponent } from './user-init/user-init.component';
+import { GameService } from './game.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { UserInitComponent } from './user-init/user-init.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ GameService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { io } from 'socket.io-client';
 
 
 
@@ -10,5 +9,4 @@ import { io } from 'socket.io-client';
 })
 export class AppComponent {
   title = 'General Knowledge';
-  socket = io('http://localhost:8080');
 }
