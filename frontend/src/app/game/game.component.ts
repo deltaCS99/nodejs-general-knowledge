@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from '../game.service';
-import { Player } from '../player';
+import { GameState } from '../game-state';
 
 @Component({
   selector: 'app-game',
@@ -9,10 +9,14 @@ import { Player } from '../player';
 })
 export class GameComponent {
   username: string = '';
+  catergories: string[]= []
 
-  constructor(private gameService: GameService){}
+  constructor(private gameService: GameService){
+  }
 
   ngOnInit(){
     this.username = this.gameService.getUsername();
+    this.catergories = this.gameService.getCatergories()
+    console.log(this.catergories)
   }
 }

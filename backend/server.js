@@ -23,6 +23,23 @@ const io = new Server(server, {
 let gamesInProgress = {}
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 let availableLetters = [...alphabet]
+const gameState = {
+    players: {},
+    randomLetter: "",
+    wordCatergories: [
+        "name",
+        "fruit",
+        "country",
+        "color",
+        "car brands",
+        "animal",
+    ],
+    timer: {
+        duration: 60,
+        current: 60
+    },
+    gameStatus: "pending" // "in-progress", "paused", "finished"
+}
 
 
 const createNewGame = (isAutoJoin) => {
@@ -52,8 +69,26 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
     console.log("A new player connected!", socket.id)
+    socket.on('newPlayer', (username) => {
+        
+        socket.emit('catergories', gameState.wordCatergories);
+        gameState.players[socket.id] = {
+            username,
+            score: 0
+        }
+      }
+    )
+
+    socket.on("disconnect", ()=>{
+        delete gameState.players[socket.id]
+        console.log("User disconnected")
+    })
 })
 
+setInterval(() => {
+    io.sockets.emit('state', gameState);
+  }, 1000 / 60);
+  
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`)
 })

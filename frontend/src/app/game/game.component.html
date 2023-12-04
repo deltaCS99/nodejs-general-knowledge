@@ -1,1 +1,28 @@
-<h2>{{username | uppercase}}</h2>
+<nav class="navbar">
+  <div class="left">
+    <div class="name">{{username}}</div>
+    <div class="score">Score: 100</div>
+  </div>
+
+  <div class="right">
+    <div class="logo">A</div>
+  </div>
+</nav>
+
+<div>
+  <button onclick="generateRandomLetter()">Generate Letter</button>
+  <button onclick="generateRandomLetter()">Submit</button>
+</div>
+
+<div class="category-grid">
+    <div class="category-tile" *ngFor="let category of catergories">
+      <div class="front-tile">
+        {{ category }}
+      </div>
+      <div class="back-tile">
+        <input type="text" placeholder="Enter {{category}}">
+      </div>
+    </div>
+  </div>
+  
+  
