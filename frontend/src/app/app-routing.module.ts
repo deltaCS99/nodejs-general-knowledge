@@ -5,8 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { UserInitComponent } from './user-init/user-init.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'init', component: UserInitComponent },
   { path: 'game', component: GameComponent }
 ]

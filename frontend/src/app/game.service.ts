@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { GameState } from './game-state';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,9 @@ export class GameService {
     return this.username;
   }
 
-  listen(eventName: string) {
+  listen(eventName: string): Observable<GameState> {
     return new Observable((subscriber) => {
-      this.socket.on(eventName, (data) => {
+      this.socket.on(eventName, (data: GameState) => {
         subscriber.next(data);
       });
     });
@@ -34,10 +35,13 @@ export class GameService {
     this.socket.on('catergories', (wordCatergories) => {
       for (let catergory of wordCatergories) {
         catergories.push(catergory)
-        console.log(catergory)
       }
     })
 
     return catergories;
+  }
+
+  generateRandomLetter(): void{
+    this.socket.emit("generateLetter");
   }
 }

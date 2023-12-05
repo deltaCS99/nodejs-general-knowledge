@@ -8,15 +8,36 @@ import { GameState } from '../game-state';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent {
-  username: string = '';
+  username: string = ''
   catergories: string[]= []
+  gameState: GameState = {
+    players: {},
+    randomLetter: '',
+    wordCategories: [],
+    timer: {
+      duration: 0,
+      current: 0
+    },
+    gameStatus: 'pending'
+  }
 
   constructor(private gameService: GameService){
+    gameService.listen("gameState").subscribe((gameState: GameState) => {
+      this.gameState = gameState
+      console.log(this.gameState)
+    })
   }
 
   ngOnInit(){
     this.username = this.gameService.getUsername();
     this.catergories = this.gameService.getCatergories()
-    console.log(this.catergories)
+  }
+
+  isButtonDisabled(): boolean {
+    return this.gameState.gameStatus !== 'in-progress';
+  }
+
+  generateRandomLetter(): void {
+    this.gameService.generateRandomLetter();
   }
 }

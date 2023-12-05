@@ -5,13 +5,13 @@
   </div>
 
   <div class="right">
-    <div class="logo">A</div>
+    <div class="logo">{{gameState.randomLetter}}</div>
   </div>
 </nav>
 
 <div>
-  <button onclick="generateRandomLetter()">Generate Letter</button>
-  <button onclick="generateRandomLetter()">Submit</button>
+  <button (click)="generateRandomLetter()" [disabled]="isButtonDisabled()">Generate Letter</button>
+  <button onclick="">Submit</button>
 </div>
 
 <div class="category-grid">
